@@ -3,3 +3,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
