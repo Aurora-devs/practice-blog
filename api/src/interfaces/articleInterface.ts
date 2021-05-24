@@ -7,6 +7,7 @@ interface ArticleInt extends Document {
   tag?: String;
   user?: String;
   reviews?: String[];
+  likes?: String[];
 }
 
 export default ArticleInt;

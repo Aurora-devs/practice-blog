@@ -43,6 +43,11 @@ const articleSchema = new mongoose.Schema({
     ref: "User",
   },
   reviews: [reviewSchema],
+  likes: [
+    {
+      user: mongoose.Schema.Types.ObjectId,
+    },
+  ],
 });
 
 const Article = mongoose.model<ArticleInt>("Article", articleSchema);

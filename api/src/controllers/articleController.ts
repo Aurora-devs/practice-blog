@@ -93,6 +93,8 @@ const createreviewForArticle = asyncHandler(
 
       article.reviews?.push(review);
       await article.save();
+
+      res.json("Comment submited");
     } else {
       res.status(404);
       throw new Error("Article not found");
@@ -127,10 +129,52 @@ const updateArticle = asyncHandler(
   },
 );
 
+// @desc Create a like
+// @route Post /api/articles/:id/like
+// @access private
+
+const likeOrUnlikeArticle = asyncHandler(
+  async (req: GetUserAuthInforRequest, res: Response) => {
+    const article = await Article.findById(req.params.id);
+
+    if (article) {
+      const alreadyLiked = article.likes?.find(
+        (r: any) => r.user.toString() === req.user?._id.toString(),
+      );
+
+      if (!alreadyLiked) {
+        const liked = {
+          user: req.user?._id,
+        } as any;
+
+        article.likes?.push(liked);
+        await article.save();
+
+        res.json("liked");
+      } else {
+        const indexOf = article.likes
+          ?.map((like: any) => like.user.toString())
+          .indexOf(req.user?.id) as any;
+
+        console.log(indexOf);
+
+        await article.likes?.splice(indexOf, 1);
+        await article.save();
+
+        res.json("like removed");
+      }
+    } else {
+      res.status(404);
+      throw new Error(`Article with id: ${req.params.id} not found`);
+    }
+  },
+);
+
 export {
   createArticle,
   getArticle,
   getArticles,
   createreviewForArticle,
   updateArticle,
+  likeOrUnlikeArticle,
 };
