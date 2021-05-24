@@ -2,6 +2,7 @@ import express from "express";
 import connectDB from "./src/config/db";
 import cors from "cors";
 import userRoutes from "./src/routes/userRoutes";
+import articleRoutes from "./src/routes/articleRoutes";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -16,5 +17,6 @@ app.use(cors());
 
 // api routes
 app.use("/api/users", userRoutes);
+app.use("/api/articles", articleRoutes);
 
 app.listen(PORT, () => console.log(`Serversunnig on port ${PORT}`));
