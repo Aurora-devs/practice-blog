@@ -19,4 +19,4 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 
-app.listen(PORT, () => console.log(`Serversunnig on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is runnig on port ${PORT}`));
