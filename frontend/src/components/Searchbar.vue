@@ -12,9 +12,10 @@
         name="search"
         id="search"
         class="
-          ml-5
+          ml-8
           py-1
           focus:ring-0
+          focus:outline-none
           border-none
           bg-transparent
           placeholder-gray-300
