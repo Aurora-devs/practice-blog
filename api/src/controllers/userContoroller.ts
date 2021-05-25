@@ -67,10 +67,6 @@ const loginUser = asyncHandler(
   },
 );
 
-// _id: user._id,
-// name: user.name,
-// email: user.email,
-
 // @desc Get user profile
 // @route GET /api/users/profile
 // @access Private
