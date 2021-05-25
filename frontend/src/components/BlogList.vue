@@ -2,9 +2,9 @@
   <section class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
     <BlogItem
       v-for="article in state.articles"
-      img="https://www.oberlo.com/media/1603969791-image-1.jpg?fit=max&fm=jpg&w=1824"
-      tag="HOW TO"
-      title="20 typography examples for tailwindcss typography in vuejs"
+      img="https://blog.snappa.com/wp-content/uploads/2018/01/youtube-thumbnail-size.png"
+      :tags="article.tag"
+      :title="article.title"
       author="Creative Market"
       dateCreated="Nov 11, 2019"
     />
