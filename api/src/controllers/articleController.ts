@@ -170,6 +170,28 @@ const likeOrUnlikeArticle = asyncHandler(
   },
 );
 
+// @desc Create a like
+// @route Post /api/articles/:id
+// @access private
+
+const deleteArticle = asyncHandler(
+  async (req: GetUserAuthInforRequest, res: Response) => {
+    const article = await Article.findById(req.params.id);
+    if (article) {
+      if (article?.user?.toString() === req.user?._id.toString()) {
+        await article.remove();
+
+        res.json("deleted");
+      } else {
+        throw new Error("You are not the author");
+      }
+    } else {
+      res.status(404);
+      throw new Error(`Article with id: ${req.params.id} is not found`);
+    }
+  },
+);
+
 export {
   createArticle,
   getArticle,
@@ -177,4 +199,5 @@ export {
   createreviewForArticle,
   updateArticle,
   likeOrUnlikeArticle,
+  deleteArticle,
 };

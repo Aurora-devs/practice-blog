@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken";
 
 import UserInt from "../interfaces/userInterface";
+import Article from "../models/articleModel";
 
 export interface GetUserAuthInforRequest extends Request {
   user?: UserInt;
@@ -75,8 +76,23 @@ const userProfile = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
     const user = await User.findById(req.user?._id);
 
+    const articleUser = await Article.find({ user: req.user?._id });
+
     if (user) {
-      res.json(user);
+      if (articleUser.length > 0) {
+        const jsonRes = {
+          user,
+          articleUser,
+        };
+        res.json(jsonRes);
+      } else {
+        const jsonRes = {
+          user,
+          articleUser: "No article",
+        };
+
+        res.json(jsonRes);
+      }
     } else {
       res.status(404);
       throw new Error("User not found");
@@ -84,4 +100,53 @@ const userProfile = asyncHandler(
   },
 );
 
-export { registerUser, loginUser, userProfile };
+// @desc Get user profile
+// @route GET /api/users/:id
+// @access Private
+
+const getUserProfile = asyncHandler(
+  async (req: GetUserAuthInforRequest, res: Response) => {
+    const user = await User.findById(req.params.id);
+
+    const articleUser = await Article.find({ user: req.params.id });
+
+    if (user) {
+      if (articleUser.length > 0) {
+        const jsonRes = {
+          user,
+          articleUser,
+        };
+        res.json(jsonRes);
+      } else {
+        const jsonRes = {
+          user,
+          articleUser: "No article",
+        };
+
+        res.json(jsonRes);
+      }
+    } else {
+      res.status(404);
+      throw new Error(`User with id: ${req.params.id} not fond`);
+    }
+  },
+);
+
+// @desc Delete user profile
+// @route DELETE /api/users/profile
+// @access Private
+
+const deleteProfile = asyncHandler(
+  async (req: GetUserAuthInforRequest, res: Response) => {
+    const user = await User.findById(req.user?._id);
+
+    if (user) {
+      await user.remove();
+    } else {
+      res.json(404);
+      throw new Error(`User with id : ${req.user?._id} not found`);
+    }
+  },
+);
+
+export { registerUser, loginUser, userProfile, deleteProfile, getUserProfile };
