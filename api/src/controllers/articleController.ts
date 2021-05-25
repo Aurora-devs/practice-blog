@@ -15,7 +15,7 @@ export interface GetUserAuthInforRequest extends Request {
 
 const createArticle = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
-    const { title, description } = req.body;
+    const { title, description, thumbnail } = req.body;
     const user = req.user;
 
     const tag = req.body.tag.split(" ");
@@ -25,6 +25,7 @@ const createArticle = asyncHandler(
       description,
       tag,
       user,
+      thumbnail,
     });
 
     await newArticle.save();
@@ -57,13 +58,44 @@ const getArticle = asyncHandler(
 
 const getArticles = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
-    const articles = await Article.find({});
+    const pageSize = 12;
+    const page = Number(req.query.pageNumber) || 1;
 
-    if (articles) {
-      res.json(articles);
+    const keyword = req.query.keyword
+      ? {
+          $or: [
+            {
+              title: {
+                $regex: req.query.keyword,
+                $options: "i",
+              },
+            },
+            {
+              tag: {
+                $regex: req.query.keyword,
+                $options: "i",
+              },
+            },
+          ],
+        }
+      : {};
+
+    const count = await Article.countDocuments({ ...keyword } as any);
+
+    const articles = await Article.find({ ...keyword } as any)
+      .populate("user", "email")
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+    if (articles.length > 0) {
+      res.json({ articles, page, pages: Math.ceil(count / pageSize) });
+    } else if (keyword) {
+      res.status(404);
+      throw new Error("No Article found");
+    } else {
+      res.status(404);
+      throw new Error("No Article ");
     }
-
-    throw new Error("No Article");
   },
 );
 
@@ -112,9 +144,11 @@ const updateArticle = asyncHandler(
 
     if (article) {
       if (article?.user?.toString() === req.user?._id.toString()) {
-        const { title, description, tag } = req.body;
+        const { title, description, tag, thumbnail } = req.body;
         article.title = title || article?.title;
         article.description = description || article?.description;
+        article.thumbnail = thumbnail || article.thumbnail;
+        article.tag = tag || article.tag;
 
         await article.save();
         res.json(article);
