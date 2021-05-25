@@ -15,15 +15,15 @@ export interface GetUserAuthInforRequest extends Request {
 
 const createArticle = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
-    const { title, description, thumbnail } = req.body;
+    const { title, description, thumbnail, tag } = req.body;
     const user = req.user;
 
-    const tag = req.body.tag.split(" ");
+    console.log("tag", tag);
+    tag.split(" ");
 
     const newArticle = new Article({
       title,
       description,
-      tag,
       user,
       thumbnail,
     });
@@ -41,7 +41,7 @@ const getArticle = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
     const article = await Article.findById(req.params.id).populate(
       "user",
-      "email",
+      "name",
     );
 
     if (article) {
@@ -83,7 +83,7 @@ const getArticles = asyncHandler(
     const count = await Article.countDocuments({ ...keyword } as any);
 
     const articles = await Article.find({ ...keyword } as any)
-      .populate("user", "email")
+      .populate("user", "name")
       .limit(pageSize)
       .skip(pageSize * (page - 1));
 
