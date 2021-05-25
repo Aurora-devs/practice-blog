@@ -31,6 +31,10 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: "Description is required",
   },
+  thumbnail: {
+    type: String,
+    required: "Thubmail is required",
+  },
   tag: [
     {
       type: String,
