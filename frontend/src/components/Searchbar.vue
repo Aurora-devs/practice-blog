@@ -1,8 +1,10 @@
 <template>
-  <div class="flex items-center justify-between">
+  <div
+    class="flex flex-col w-full md:flex-row md:items-center md:justify-between"
+  >
     <p>Showing <b>1</b> to <b>12</b> of 2442 posts</p>
     <form
-      class="relative bg-white border rounded-md"
+      class="relative bg-white border rounded-md mt-2 md:m-0"
       :class="searchFocus ? 'border-blue-500' : 'border-gray-400'"
     >
       <input
