@@ -13,7 +13,8 @@
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/line-clamp": "^0.2.1",
     "@tailwindcss/typography": "^0.4.1",
-    "vue": "^3.0.5"
+    "vue": "^3.0.5",
+    "vuex": "^4.0.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.2",
