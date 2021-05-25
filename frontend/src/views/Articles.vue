@@ -9,7 +9,7 @@ import Searchbar from "../components/Searchbar.vue";
 import BlogList from "../components/BlogList.vue";
 
 export default defineComponent({
-  name: "Blogs",
+  name: "Articles",
   components: {
     Searchbar,
     BlogList,
