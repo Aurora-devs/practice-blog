@@ -91,7 +91,7 @@ const getArticles = asyncHandler(
       res.json({ articles, page, pages: Math.ceil(count / pageSize) });
     } else if (keyword) {
       res.status(404);
-      throw new Error("No Article found");
+      res.json("No article found");
     } else {
       res.status(404);
       throw new Error("No Article ");
