@@ -16,7 +16,7 @@ router.route("/").get(getArticles);
 router.route("/new").post(protect, createArticle);
 router
   .route("/:id")
-  .get(protect, getArticle)
+  .get(getArticle)
   .put(protect, updateArticle)
   .delete(protect, deleteArticle);
 router.route("/:id/comment").post(protect, createreviewForArticle);
