@@ -3,6 +3,9 @@ node_modules
 dist
 dist-ssr
 *.local
+*.jpg
+*.png
+
 .env
 .DS_Store
 .env.local
