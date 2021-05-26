@@ -1,5 +1,5 @@
 <template>
-  <main class="px-20">
+  <main class="md:px-20">
     <header>
       <h1 class="text-4xl mb-6 font-semibold">
         {{ article.title }}
