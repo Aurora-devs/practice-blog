@@ -44,11 +44,10 @@ const getArticle = asyncHandler(
       "name",
     );
 
-    if (article) {
-      res.json(article);
+    if (!article) {
+      throw new Error(`Article with id: ${req.params.id} not find`);
     }
-
-    throw new Error(`Article with id: ${req.params.id} not find`);
+    res.json(article);
   },
 );
 
