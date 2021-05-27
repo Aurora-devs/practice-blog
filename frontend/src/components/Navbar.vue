@@ -14,7 +14,7 @@
   >
     <h1 class="text-xl">Blog</h1>
     <div>
-      <router-link to="/login" class="btn">Login</router-link>
+      <router-link to="/login"><button class="btn">Login</button></router-link>
       <button class="btn">Register</button>
     </div>
   </nav>
