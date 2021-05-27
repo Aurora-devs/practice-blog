@@ -17,7 +17,9 @@
       <router-link to="/login"
         ><button class="btn btn-green">Login</button></router-link
       >
-      <button class="btn btn-green">Register</button>
+      <router-link to="/register"
+        ><button class="btn btn-green">Register</button></router-link
+      >
     </div>
     <div v-else>
       <button class="btn btn-red" @click="logout">Logout</button>
