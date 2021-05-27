@@ -20,7 +20,7 @@
       <button class="btn btn-green">Register</button>
     </div>
     <div v-else>
-      <button class="btn btn-red">Logout</button>
+      <button class="btn btn-red" @click="logout">Logout</button>
     </div>
   </nav>
 </template>
@@ -32,7 +32,10 @@ export default defineComponent({
   name: "Navbar",
   setup() {
     const store = useStore();
-    return { store };
+    function logout() {
+      store.commit("removeToken");
+    }
+    return { store, logout };
   },
 });
 </script>

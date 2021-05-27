@@ -24,6 +24,7 @@ export default createStore<State>({
       state.token = token;
     },
     removeToken(state) {
+      localStorage.removeItem("token");
       state.token = null;
     },
   },
