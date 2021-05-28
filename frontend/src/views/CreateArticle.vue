@@ -34,6 +34,14 @@
       <input type="text" name="title" id="title" v-model="title" />
     </div>
     <div class="form-group">
+      <label for="tag">Tags</label>
+      <input type="text" name="tag" id="tag" v-model="tag" />
+      <p class="flex items-center text-gray-400 ml-4">
+        <span class="w-1 h-1 rounded-full bg-gray-400 mr-2"></span>Seperate with
+        space
+      </p>
+    </div>
+    <div class="form-group">
       <label for="description">Description</label>
       <textarea
         name="description"
@@ -103,6 +111,7 @@ import {
   ExclamationCircleIcon,
   CheckCircleIcon,
 } from "@heroicons/vue/outline";
+import axios from "axios";
 
 export default defineComponent({
   name: "CreateArticle",
@@ -114,13 +123,16 @@ export default defineComponent({
   setup() {
     // form fields and file upload customization
     const title = ref("");
+    const tag = ref("");
     const description = ref("");
     const fileName = ref("No file chosen");
+    const thumbnail = ref({} as File);
 
     function fileLoaded(e: Event) {
       const target = e.target as HTMLInputElement;
       if (target?.files) {
         fileName.value = target.files[0].name;
+        thumbnail.value = target.files[0];
       }
     }
 
@@ -129,11 +141,48 @@ export default defineComponent({
 
     // Create article
     function createArticle() {
-      console.log("Test");
+      const bodyFormData = new FormData();
+      bodyFormData.append("image", thumbnail.value, fileName.value);
+
+      axios
+        .post("/api/upload", bodyFormData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then(res => {
+          console.log(res);
+
+          // console.log(title.value);
+          // console.log(description.value);
+          // console.log(tag.value);
+          // console.log(thumbnail.value);
+
+          axios
+            .post(
+              "/api/articles/new",
+              {
+                title: title.value,
+                description: description.value,
+                tag: tag.value,
+                thumbnail: res.data,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.token}`,
+                },
+              },
+            )
+            .then(res => {
+              console.log(res);
+            });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
 
     return {
       title,
+      tag,
       description,
       fileName,
       fileLoaded,
