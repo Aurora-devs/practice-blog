@@ -1,13 +1,46 @@
 <template>
-  <main class="prose-sm my-4">
+  <div
+    v-if="showError"
+    @click="showError = false"
+    class="
+      error-success
+      text-red-700
+      border-red-700
+      bg-red-200
+      hover:bg-opacity-80
+    "
+  >
+    <ExclamationCircleIcon class="w-6 h-6 text-red-700 top-4 absolute" />
+    error/success message
+  </div>
+  <div
+    v-if="showSuccess"
+    @click="showSuccess = false"
+    class="
+      error-success
+      text-green-700
+      border-green-700
+      bg-green-200
+      hover:bg-opacity-80
+    "
+  >
+    <CheckCircleIcon class="w-6 h-6 text-green-700 top-4 absolute" />
+    error/success message
+  </div>
+  <form @submit.prevent="createArticle" class="prose-sm my-4">
     <h2>Create New Article</h2>
     <div class="form-group">
       <label for="title">Title</label>
-      <input type="text" name="title" id="title" />
+      <input type="text" name="title" id="title" v-model="title" />
     </div>
     <div class="form-group">
-      <label for="description">description</label>
-      <textarea name="description" id="description" class="h-64"></textarea>
+      <label for="description">Description</label>
+      <textarea
+        name="description"
+        id="description"
+        v-model="description"
+        class="h-64"
+      ></textarea>
     </div>
     <div class="flex items-center">
       <label
@@ -60,34 +93,62 @@
         hover:text-white
       "
     />
-  </main>
+  </form>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { UploadIcon } from "@heroicons/vue/outline";
+import {
+  UploadIcon,
+  ExclamationCircleIcon,
+  CheckCircleIcon,
+} from "@heroicons/vue/outline";
+
 export default defineComponent({
   name: "CreateArticle",
   components: {
     UploadIcon,
+    ExclamationCircleIcon,
+    CheckCircleIcon,
   },
   setup() {
+    // form fields and file upload customization
+    const title = ref("");
+    const description = ref("");
     const fileName = ref("No file chosen");
+
     function fileLoaded(e: Event) {
       const target = e.target as HTMLInputElement;
       if (target?.files) {
         fileName.value = target.files[0].name;
       }
     }
+
+    const showError = ref(false);
+    const showSuccess = ref(false);
+
+    // Create article
+    function createArticle() {
+      console.log("Test");
+    }
+
     return {
+      title,
+      description,
       fileName,
       fileLoaded,
+      showError,
+      showSuccess,
+      createArticle,
     };
   },
 });
 </script>
 
 <style lang="postcss" scoped>
+.error-success {
+  @apply bg-opacity-50 cursor-pointer transition-colors absolute bottom-8 left-8 right-8 md:left-1/3 md:right-1/3 text-center p-4 -mt-4 border-2 rounded;
+}
 .form-group {
   @apply flex flex-col my-4;
 }
