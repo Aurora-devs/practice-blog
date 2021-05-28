@@ -15,17 +15,17 @@ export interface GetUserAuthInforRequest extends Request {
 
 const createArticle = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
-    const { title, description, thumbnail, tag } = req.body;
+    const { title, description, thumbnail } = req.body;
     const user = req.user;
 
-    console.log("tag", tag);
-    tag.split(" ");
+    const tag = req.body.tag.split(" ");
 
     const newArticle = new Article({
       title,
       description,
       user,
       thumbnail,
+      tag,
     });
 
     await newArticle.save();
