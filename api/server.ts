@@ -23,6 +23,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/upload", uploadRoutes);
 
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.listen(PORT, () => console.log(`Server is runnig on port ${PORT}`));
