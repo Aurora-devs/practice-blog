@@ -4,6 +4,7 @@ import Articles from "../views/Articles.vue";
 import SingleArticle from "../views/SingleArticle.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import CreateArticle from "../views/CreateArticle.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register",
     name: "Register",
     component: Register,
+  },
+  {
+    path: "/articles/new",
+    name: "CreateArticle",
+    component: CreateArticle,
   },
 ];
 

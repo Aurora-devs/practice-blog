@@ -2,10 +2,10 @@
   <section class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
     <BlogItem
       v-for="article in state.articles"
-      img="https://blog.snappa.com/wp-content/uploads/2018/01/youtube-thumbnail-size.png"
+      :img="article.thumbnail"
       :tags="article.tag"
       :title="article.title"
-      author="Creative Market"
+      :author="article.user.name"
       dateCreated="Nov 11, 2019"
     />
   </section>
