@@ -29,10 +29,7 @@
       </p>
     </header>
     <section class="my-4">
-      <img
-        src="https://blog.snappa.com/wp-content/uploads/2018/01/youtube-thumbnail-size.png"
-        alt="article-img"
-      />
+      <img :src="article.thumbnail" alt="article-img" />
       <p class="mt-4 prose">{{ article.description }}</p>
     </section>
   </main>
