@@ -22,7 +22,7 @@
       </p>
       <p class="text-gray-600 flex items-center mt-1">
         By
-        <b class="text-green-600 m-2">Creative Market</b> |
+        <b class="text-green-600 m-2">{{ article.user.name }}</b> |
         <span class="flex items-center"
           ><ClockIcon class="h-5 w-5 ml-2 mr-1 inline" />9 min</span
         >

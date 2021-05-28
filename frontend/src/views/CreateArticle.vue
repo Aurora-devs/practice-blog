@@ -11,7 +11,7 @@
     "
   >
     <ExclamationCircleIcon class="w-6 h-6 text-red-700 top-4 absolute" />
-    error/success message
+    Invalid data or server error!
   </div>
   <div
     v-if="showSuccess"
@@ -25,7 +25,7 @@
     "
   >
     <CheckCircleIcon class="w-6 h-6 text-green-700 top-4 absolute" />
-    error/success message
+    Article created successfully!
   </div>
   <form @submit.prevent="createArticle" class="prose-sm my-4">
     <h2>Create New Article</h2>

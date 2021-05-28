@@ -5,7 +5,7 @@
       :img="article.thumbnail"
       :tags="article.tag"
       :title="article.title"
-      author="Creative Market"
+      :author="article.user.name"
       dateCreated="Nov 11, 2019"
     />
   </section>
