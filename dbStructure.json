@@ -1,0 +1,21 @@
+{
+  "articles": {
+    "_id": "string(hash)",
+    "author": {
+      "_id": "string(hash)",
+      "name": "string"
+    },
+    "img": "string",
+    "title": "string",
+    "body": "long string",
+    "tags": ["string"],
+    "likes": ["user id (string)"]
+  },
+  "users": {
+    "_id": "string(hash)",
+    "name": "string",
+    "email": "string",
+    "password": "string(hash)",
+    "articles": ["article id (string)"]
+  }
+}
