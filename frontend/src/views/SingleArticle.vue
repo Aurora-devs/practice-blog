@@ -22,7 +22,10 @@
       </p>
       <p class="text-gray-600 flex items-center mt-1">
         By
-        <b class="text-green-600 m-2">{{ article.user.name }}</b> |
+        <b class="text-green-600 m-2" v-if="article.user">{{
+          article.user.name
+        }}</b>
+        |
         <span class="flex items-center"
           ><ClockIcon class="h-5 w-5 ml-2 mr-1 inline" />9 min</span
         >
@@ -36,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { ClockIcon } from "@heroicons/vue/outline";
@@ -46,10 +49,18 @@ export default defineComponent({
   components: {
     ClockIcon,
   },
-  setup: async () => {
+  setup() {
     const route = useRoute();
-    const res = await axios.get(`/api/articles/${route.params.id}`);
-    const article = res.data;
+    const article = ref({} as any);
+    axios
+      .get(`/api/articles/${route.params.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      })
+      .then(res => {
+        article.value = res.data.article;
+      });
     return {
       article,
     };

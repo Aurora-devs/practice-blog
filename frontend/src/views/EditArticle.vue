@@ -143,10 +143,16 @@ export default defineComponent({
       }
     }
 
-    axios.get(`/api/articles/${route.params.id}`).then(res => {
-      article.value = res.data as Article;
-      article.value.tag = (article.value.tag as Array<string>).join(" ");
-    });
+    axios
+      .get(`/api/articles/${route.params.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      })
+      .then(res => {
+        article.value = res.data.article as Article;
+        article.value.tag = (article.value.tag as Array<string>).join(" ");
+      });
 
     function editArticle(article: Article) {
       const editedArticle = {
