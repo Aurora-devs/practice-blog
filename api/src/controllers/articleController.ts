@@ -31,7 +31,7 @@ const createArticle = asyncHandler(
       description,
       user,
       thumbnail,
-      tags,
+      tag: tags,
     });
 
     await newArticle.save();
