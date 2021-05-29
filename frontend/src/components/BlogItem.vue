@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white shadow-md">
+  <div class="bg-white shadow-md flex flex-col justify-between">
     <img :src="img" />
     <div class="p-4">
       <small class="tag mr-2 my-1" v-for="tag in tags">{{ tag }}</small>
