@@ -6,6 +6,7 @@
       :tags="article.tag"
       :title="article.title"
       :author="article.user.name"
+      :id="article._id"
       dateCreated="Nov 11, 2019"
     />
   </section>

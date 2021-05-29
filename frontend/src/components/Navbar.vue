@@ -22,6 +22,11 @@
       >
     </div>
     <div v-else>
+      <router-link to="/articles/new"
+        ><a class="mx-8 transition-colors hover:text-blue-100"
+          >New Article</a
+        ></router-link
+      >
       <button class="btn btn-red" @click="logout">Logout</button>
     </div>
   </nav>
