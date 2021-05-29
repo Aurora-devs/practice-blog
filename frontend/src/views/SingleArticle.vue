@@ -34,13 +34,52 @@
     <section class="my-4">
       <img :src="article.thumbnail" alt="article-img" />
       <p class="mt-4 prose">{{ article.description }}</p>
+      <div class="my-4" v-if="isEditable">
+        <router-link :to="`/articles/edit/${article._id}`">
+          <button
+            class="
+              border-2 border-blue-500
+              text-blue-500
+              transition-colors
+              cursor-pointer
+              rounded
+              px-4
+              py-0.5
+              mr-4
+              font-semibold
+              hover:text-white
+              hover:bg-blue-500
+            "
+          >
+            EDIT
+          </button>
+        </router-link>
+        <button
+          class="
+            border-2 border-red-500
+            text-red-500
+            transition-colors
+            cursor-pointer
+            rounded
+            px-4
+            py-0.5
+            mr-4
+            font-semibold
+            hover:text-white
+            hover:bg-red-500
+          "
+          @click="deleteArticle"
+        >
+          DELETE
+        </button>
+      </div>
     </section>
   </main>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { ClockIcon } from "@heroicons/vue/outline";
 
@@ -51,7 +90,9 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const article = ref({} as any);
+    const isEditable = ref(false);
     axios
       .get(`/api/articles/${route.params.id}`, {
         headers: {
@@ -60,8 +101,23 @@ export default defineComponent({
       })
       .then(res => {
         article.value = res.data.article;
+        isEditable.value = res.data.edit;
       });
+
+    function deleteArticle() {
+      axios
+        .delete(`/api/articles/${article.value._id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+        })
+        .then(() => {
+          router.push("/");
+        });
+    }
     return {
+      deleteArticle,
+      isEditable,
       article,
     };
   },
