@@ -18,14 +18,20 @@ const createArticle = asyncHandler(
     const { title, description, thumbnail } = req.body;
     const user = req.user;
 
+    const tags = [];
     const tag = req.body.tag.split(" ");
+    for (let index = 0; index < tag.length; index++) {
+      if (tag[index] !== "") {
+        tags.push(tag[index]);
+      }
+    }
 
     const newArticle = new Article({
       title,
       description,
       user,
       thumbnail,
-      tag,
+      tags,
     });
 
     await newArticle.save();
@@ -39,15 +45,23 @@ const createArticle = asyncHandler(
 // @access private
 const getArticle = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
-    const article = await Article.findById(req.params.id).populate(
+    const article = (await Article.findById(req.params.id).populate(
       "user",
       "name",
-    );
+    )) as any;
+
+    const user = req.user?._id;
+    const articleAuthor = article?.user._id;
 
     if (!article) {
       throw new Error(`Article with id: ${req.params.id} not find`);
     }
-    res.json(article);
+
+    if (user?.toString() === articleAuthor.toString()) {
+      res.json({ article, edit: true });
+    } else {
+      res.json({ article, edit: false });
+    }
   },
 );
 
@@ -143,11 +157,20 @@ const updateArticle = asyncHandler(
 
     if (article) {
       if (article?.user?.toString() === req.user?._id.toString()) {
-        const { title, description, tag, thumbnail } = req.body;
+        const { title, description, thumbnail } = req.body;
+
+        const tags = [];
+        const tag = req.body.tag.split(" ");
+        for (let index = 0; index < tag.length; index++) {
+          if (tag[index] !== "") {
+            tags.push(tag[index]);
+          }
+        }
+
         article.title = title || article?.title;
         article.description = description || article?.description;
         article.thumbnail = thumbnail || article.thumbnail;
-        article.tag = tag || article.tag;
+        article.tag = tags || article.tag;
 
         await article.save();
         res.json(article);
