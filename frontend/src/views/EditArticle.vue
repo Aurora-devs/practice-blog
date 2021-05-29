@@ -134,12 +134,14 @@ export default defineComponent({
     const article = ref({} as Article);
     const fileName = ref("No file chosen");
     const thumbnail = ref({} as File);
+    let isNewImage = false;
 
     function fileLoaded(e: Event) {
       const target = e.target as HTMLInputElement;
       if (target?.files) {
         fileName.value = target.files[0].name;
         thumbnail.value = target.files[0];
+        isNewImage = true;
       }
     }
 
@@ -161,7 +163,8 @@ export default defineComponent({
         description: article.description,
         thumbnail: article.thumbnail,
       };
-      if (thumbnail.value === null) {
+
+      if (isNewImage) {
         const bodyFormData = new FormData();
         bodyFormData.append("image", thumbnail.value, fileName.value);
         axios
@@ -169,16 +172,14 @@ export default defineComponent({
             headers: { "Content-Type": "multipart/form-data" },
           })
           .then(res => {
+            editedArticle.thumbnail = res.data;
+
             axios
-              .put(
-                `/api/articles/${route.params.id}`,
-                { ...editedArticle, thumbnail: res.data },
-                {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.token}`,
-                  },
+              .put(`/api/articles/${route.params.id}`, editedArticle, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.token}`,
                 },
-              )
+              })
               .then(() => {
                 showSuccess.value = true;
               })
@@ -190,6 +191,8 @@ export default defineComponent({
             showError.value = true;
           });
       } else {
+        console.log("new image");
+
         axios
           .put(`/api/articles/${route.params.id}`, editedArticle, {
             headers: {
