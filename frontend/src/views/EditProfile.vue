@@ -108,8 +108,6 @@ export default defineComponent({
             password: pass1.value,
           };
 
-          console.log(newData);
-
           axios
             .put("/api/users/profile", newData, {
               headers: {
