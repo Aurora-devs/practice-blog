@@ -156,28 +156,23 @@ const updateArticle = asyncHandler(
     const article: any = await Article.findById(req.params.id);
 
     if (article) {
-      if (article?.user?.toString() === req.user?._id.toString()) {
-        const { title, description, thumbnail } = req.body;
+      const { title, description, thumbnail } = req.body;
 
-        const tags = [];
-        const tag = req.body.tag.split(" ");
-        for (let index = 0; index < tag.length; index++) {
-          if (tag[index] !== "") {
-            tags.push(tag[index]);
-          }
+      const tags = [];
+      const tag = req.body.tag.split(" ");
+      for (let index = 0; index < tag.length; index++) {
+        if (tag[index] !== "") {
+          tags.push(tag[index]);
         }
-
-        article.title = title || article?.title;
-        article.description = description || article?.description;
-        article.thumbnail = thumbnail || article.thumbnail;
-        article.tag = tags || article.tag;
-
-        await article.save();
-        res.json(article);
-      } else {
-        res.status(400);
-        throw new Error("You are not the author");
       }
+
+      article.title = title || article?.title;
+      article.description = description || article?.description;
+      article.thumbnail = thumbnail || article.thumbnail;
+      article.tag = tags || article.tag;
+
+      await article.save();
+      res.json(article);
     } else {
       res.status(404);
       throw new Error(`Article with id: ${req.params.id} don't exist`);
@@ -234,13 +229,9 @@ const deleteArticle = asyncHandler(
   async (req: GetUserAuthInforRequest, res: Response) => {
     const article = await Article.findById(req.params.id);
     if (article) {
-      if (article?.user?.toString() === req.user?._id.toString()) {
-        await article.remove();
+      await article.remove();
 
-        res.json("deleted");
-      } else {
-        throw new Error("You are not the author");
-      }
+      res.json("deleted");
     } else {
       res.status(404);
       throw new Error(`Article with id: ${req.params.id} is not found`);

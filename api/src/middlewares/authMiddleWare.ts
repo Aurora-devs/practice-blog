@@ -59,8 +59,7 @@ const isAuthor = asyncHandler(
       }
     } catch (error) {
       res.status(401);
-      res.json("Sorry you are not the authore");
-      res.redirect("http://localhost:3000");
+      throw new Error("You are not the author");
     }
   },
 );
