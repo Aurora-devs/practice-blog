@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import { NextFunction, Request, Response } from "express";
 import * as dotenv from "dotenv";
 import User from "../models/userModel";
+import Article from "../models/articleModel";
 import UserInt from "../interfaces/userInterface";
 
 dotenv.config({ path: __dirname + "/.env" });
@@ -45,4 +46,23 @@ const protect = asyncHandler(
   },
 );
 
-export { protect };
+const isAuthor = asyncHandler(
+  async (req: GetUserAuthInforRequest, res: Response, next: NextFunction) => {
+    try {
+      const article = (await Article.findById(req.params._id)) as any;
+      const articleAuthor = article.user;
+      console.log(article);
+      console.log(articleAuthor);
+
+      if (req.user?._id.toString() === articleAuthor._id) {
+        next();
+      }
+    } catch (error) {
+      res.status(401);
+      res.json("Sorry you are not the authore");
+      res.redirect("http://localhost:3000");
+    }
+  },
+);
+
+export { protect, isAuthor };
