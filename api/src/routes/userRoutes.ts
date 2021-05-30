@@ -4,6 +4,7 @@ import {
   userProfile,
   getUserProfile,
   deleteProfile,
+  updateProfile,
 } from "../controllers/userContoroller";
 
 import express from "express";
@@ -16,7 +17,8 @@ router.route("/login").post(loginUser);
 router
   .route("/profile")
   .get(protect, userProfile)
-  .delete(protect, deleteProfile);
+  .delete(protect, deleteProfile)
+  .put(protect, updateProfile);
 router.route("/:id").get(protect, getUserProfile);
 
 export default router;

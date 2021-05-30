@@ -132,6 +132,33 @@ const getUserProfile = asyncHandler(
   },
 );
 
+// @desc Update user profile
+// @route PUT /api/users/profile
+// @access Private
+const updateProfile = asyncHandler(
+  async (req: GetUserAuthInforRequest, res: Response) => {
+    let user = await User.findById(req.user?._id);
+    const { email, name, password } = req.body;
+    const salt = await bcrypt.genSalt(10);
+
+    if (user) {
+      user.name = name || user.name;
+      user.email = email || user.email;
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, salt);
+        user.password = hashedPassword;
+      }
+    } else {
+      res.status(404);
+      throw new Error("User not found");
+    }
+
+    await user.save();
+
+    res.json(user);
+  },
+);
+
 // @desc Delete user profile
 // @route DELETE /api/users/profile
 // @access Private
@@ -149,4 +176,11 @@ const deleteProfile = asyncHandler(
   },
 );
 
-export { registerUser, loginUser, userProfile, deleteProfile, getUserProfile };
+export {
+  registerUser,
+  loginUser,
+  userProfile,
+  deleteProfile,
+  getUserProfile,
+  updateProfile,
+};
