@@ -6,6 +6,7 @@
     <form
       class="relative bg-white border rounded-md mt-2 md:m-0"
       :class="searchFocus ? 'border-blue-500' : 'border-gray-400'"
+      @submit.prevent="searchQuery(searchString)"
     >
       <input
         type="text"
@@ -37,6 +38,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { SearchIcon } from "@heroicons/vue/outline";
+import { useStore } from "vuex";
 
 export default defineComponent({
   name: "Searchbar",
@@ -44,12 +46,18 @@ export default defineComponent({
     SearchIcon,
   },
   setup: () => {
+    const store = useStore();
+
     const searchFocus = ref(false);
     const searchString = ref("");
 
+    function searchQuery(query: string) {
+      store.commit("getQueryArticles", query);
+    }
     return {
       searchFocus,
       searchString,
+      searchQuery,
     };
   },
 });

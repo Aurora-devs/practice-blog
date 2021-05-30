@@ -22,6 +22,11 @@
       >
     </div>
     <div v-else>
+      <router-link to="/profile"
+        ><a class="transition-colors hover:text-blue-100"
+          >Profile</a
+        ></router-link
+      >
       <router-link to="/articles/new"
         ><a class="mx-8 transition-colors hover:text-blue-100"
           >New Article</a
