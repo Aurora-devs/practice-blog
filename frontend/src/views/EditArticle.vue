@@ -118,6 +118,7 @@ import {
   CheckCircleIcon,
   UploadIcon,
 } from "@heroicons/vue/outline";
+import router from "../router";
 
 export default defineComponent({
   name: "EditArticle",
@@ -182,6 +183,7 @@ export default defineComponent({
               })
               .then(() => {
                 showSuccess.value = true;
+                router.push("/");
               })
               .catch(() => {
                 showError.value = true;
