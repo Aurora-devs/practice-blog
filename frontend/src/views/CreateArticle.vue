@@ -112,6 +112,7 @@ import {
   CheckCircleIcon,
 } from "@heroicons/vue/outline";
 import axios from "axios";
+import router from "../router";
 
 export default defineComponent({
   name: "CreateArticle",
@@ -165,6 +166,7 @@ export default defineComponent({
             )
             .then(() => {
               showSuccess.value = true;
+              router.push("/");
             });
         })
         .catch(() => {

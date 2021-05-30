@@ -1,3 +1,6 @@
+![blog-list-sample](https://user-images.githubusercontent.com/68632499/120108106-e8bf0080-c178-11eb-90e2-74f5abfc549f.png)
+![single-blog-sample](https://user-images.githubusercontent.com/68632499/120108111-f1173b80-c178-11eb-8171-26666c7704f8.png)
+
 # Vue 3 + Typescript + Vite
 
 This template should help get you started developing with Vue 3 and Typescript in Vite.
