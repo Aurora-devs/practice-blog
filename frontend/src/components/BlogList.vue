@@ -14,6 +14,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import BlogItem from "./BlogItem.vue";
 
@@ -23,9 +24,15 @@ export default defineComponent({
     BlogItem,
   },
   setup: () => {
+    const route = useRoute();
     const store = useStore();
     const state = store.state;
-    store.commit("getAllArticles");
+
+    if (route.query.keyword) {
+      store.commit("getQueryArticles", route.query.keyword);
+    } else {
+      store.commit("getAllArticles");
+    }
 
     return {
       state,

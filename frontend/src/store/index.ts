@@ -19,6 +19,11 @@ export default createStore<State>({
       const data = res.data.articles;
       state.articles = data;
     },
+    async getQueryArticles(state, query) {
+      const res = await axios.get(`/api/articles?keyword=${query}`);
+      const data = res.data.articles;
+      state.articles = data;
+    },
     setToken(state, token) {
       localStorage.setItem("token", token);
       state.token = token;
